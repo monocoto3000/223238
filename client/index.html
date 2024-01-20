@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short Polling</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <style>
+        #gameScreen {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Chat</h2>
+    <b>Usuario</b>
+    <input id="usuario"></input>
+    <b>Mensaje</b>
+    <input id="mensaje"></input>
+    <button onclick="postearMensajes()">Enviar</button>
+    <button onclick="getMensajes()">Abrir Chat</button>
+    <ul id="mensajes"></ul>
+    <h2>Sala</h2>
+
+    <!-- Sala de juego -->
+    <script src="./index-ws.js" /></script>
+    <!-- Chat en linea -->
+    <script src="./index.js" /></script>
+</body>
+
+</html>
