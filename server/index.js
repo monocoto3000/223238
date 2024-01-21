@@ -2,7 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 let httpServer = require("http").createServer(app);
-let io = require("socket.io")(httpServer)
+let io = require("socket.io")(httpServer, {
+  cors: {
+    origin: "http://127.0.0.1:5500",
+    methods: ["GET", "POST"]
+  }
+})
 
 app.use(cors());
 app.use(express.json())
@@ -53,6 +58,22 @@ let connections = [];
 io.on("connect", (socket) => {
   connections.push(socket);
   console.log(`${socket.id} se ha conectado`);
+
+  socket.on('draw', (data) => {
+    connections.forEach(con => {
+      if (con.id !== socket.id) {
+        con.emit("ondraw", {x: data.x, y:data.y})
+      }
+    })
+  })
+
+  socket.on("down" , (data) => {
+    connections.forEach(con =>{
+      if (con.id !== socket.id) {
+        con.emit('ondown', {x: data.x, y: data.y})
+      }
+    })
+  })
 
   socket.on("disconnect", (reason) => {
     console.log(`${socket.id} se ha desconectado`);
