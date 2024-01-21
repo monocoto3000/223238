@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Short Polling</title>
+    <title>223238</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <style>
@@ -23,12 +23,19 @@
     <button onclick="postearMensajes()">Enviar</button>
     <button onclick="getMensajes()">Abrir Chat</button>
     <ul id="mensajes"></ul>
-    <h2>Sala</h2>
+    <h2>Canvas</h2>
+    Unirse a una sala existente: <input id="salaid"></input> <button onclick="unirseSala()">Entrar</button><button
+        onclick="crearSala()">Crear una sala</button>
+    <canvas id="canvas"></canvas>
 
-    <!-- Sala de juego -->
-    <script src="./index-ws.js" /></script>
+
+    <!-- Pizarron -->
+    <script src="./index-ws.js" />
+    </script>
     <!-- Chat en linea -->
-    <script src="./index.js" /></script>
+    <script src="./index.js" />
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
 </body>
 
 </html>

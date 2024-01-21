@@ -1,22 +1,41 @@
-// const bgcolor = '#CDF9FF'
-// const pgcolor = '#D8CDFF'
+let canvas = document.getElementById("canvas")
 
-// const pantallaJuego = document.getElementById("pantallaJuego")
-// let canvas, ctx; 
+canvas.width = 600
+canvas.height = 700
 
-// function init() {
-//     canvas = document.getElementById("canvas")
-//     ctx = canvas.getElementById("ctx")
+let ctx = canvas.getContext("2d")
 
-//     canvas.width = canvas.height = 600;
-//     ctx.fillStyle = bgcolor;
-//     ctx.fillRect(0,0, canvas.width, canvas.height);
+let y;
+let x;
+let mouseDown = false
 
-//     document.addEventListener('keydown', keydown);
-// }
+function getCanvasCoordinates(event) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+    };
+}
 
-// function keydown(e) {
-//     console.log(e.keyCode)
-// }
+canvas.addEventListener('mousedown', (e) => {
+    const coords = getCanvasCoordinates(e);
+    x = coords.x;
+    y = coords.y;
+    ctx.moveTo(x, y);
+    mouseDown = true;
+});
 
-// init();
+canvas.addEventListener('mouseup', () => {
+    mouseDown = false;
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    if (!mouseDown) return;
+
+    const coords = getCanvasCoordinates(e);
+    x = coords.x;
+    y = coords.y;
+
+    ctx.lineTo(x, y);
+    ctx.stroke();
+});
