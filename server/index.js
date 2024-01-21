@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-
 let httpServer = require("http").createServer(app);
+let io = require("socket.io")(httpServer)
 
 app.use(cors());
 app.use(express.json())
@@ -46,4 +46,17 @@ app.get('/mensajes/update', (req, res) => {
 // Pizarra colaborativa
 
 httpServer.listen(3000, () => console.log("Servidor inicializado en el puerto 3000"))
+
+
+let connections = [];
+
+io.on("connect", (socket) => {
+  connections.push(socket);
+  console.log(`${socket.id} se ha conectado`);
+
+  socket.on("disconnect", (reason) => {
+    console.log(`${socket.id} se ha desconectado`);
+    connections = connections.filter((con) => con.id !== socket.id);
+  });
+});
 
