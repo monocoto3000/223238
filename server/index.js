@@ -56,7 +56,7 @@ httpServer.listen(3000, () => console.log("Servidor inicializado en el puerto 30
 let connections = [];
 
 io.on("connect", (socket) => {
-  connections.push(socket);
+  connections.push(socket.id);
   console.log(`${socket.id} se ha conectado`);
 
   socket.on('draw', (data) => {
@@ -80,4 +80,15 @@ io.on("connect", (socket) => {
     connections = connections.filter((con) => con.id !== socket.id);
   });
 });
+
+// Contador de conexiones
+
+app.get('/conexiones', (req, res) => {
+  const usuarios = connections.length
+  return res.status(200).json({
+      success: true,
+      usuarios
+  })
+});
+
 
