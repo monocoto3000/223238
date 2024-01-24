@@ -23,12 +23,31 @@
     Unirse a una sala existente: <input id="salaid"></input> <button onclick="unirseSala()">Entrar</button><button
         onclick="crearSala()">Crear una sala</button>
     <canvas id="canvas"></canvas>
-
+    <h1>Usuarios conectados</h1>
+    <span id="conexiones">0</span>
     <!-- Pizarron -->
     <script src="./canvas.js" />
     </script>
     <!-- Chat en linea -->
     <script src="./chat.js" />
+    </script>
+
+    <script>
+        function updateConnectionCount() {
+            fetch('http://localhost:3000/conexiones')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('conexiones').innerText = data.usuarios;
+                    updateConnectionCount();
+                })
+                .catch(error => {
+                    console.error('Error durante el long polling:', error);
+                    setTimeout(updateConnectionCount, 1000);
+                });
+        }
+
+        updateConnectionCount();
+
     </script>
 </body>
 
