@@ -12,5 +12,6 @@
   "dependencies": {
     "socket.io": "^4.7.4",
     "uniqid": "^5.4.0"
-  }
+  },
+  "devDependencies": {}
 }

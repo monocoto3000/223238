@@ -1,11 +1,22 @@
 const mensajesUL = document.getElementById("mensajes");
 let ultimoMensaje = 0;
+
+
+function randomColorGenerator() {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
 function imprimirMensajes(mensajes) {
     console.log('Mensajes recibidos:', mensajes);
-
-    for (mensaje of mensajes) {
+    for (const mensaje of mensajes) {
         const li = document.createElement("li");
-        li.innerText = `${mensaje.id} -  ${mensaje.user}  ${mensaje.asunto} `;
+        const userColor = randomColorGenerator(); 
+        li.innerHTML = `<span style="color: ${userColor}; font-weight: bold;">${mensaje.user}:</span> <span style="font-weight: bold;">${mensaje.asunto}</span></span> <span style="text-align: right; color: gray">${mensaje.fecha}</span>`;
         mensajesUL.appendChild(li);
     }
 }
