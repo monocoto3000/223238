@@ -11,20 +11,54 @@
 </head>
 
 <body>
-    <h2>Chat</h2>
-    <b>Usuario</b>
-    <input id="usuario"></input>
-    <b>Mensaje</b>
-    <input id="mensaje"></input>
-    <button onclick="postearMensajes()">Enviar</button>
-    <button onclick="getMensajes()">Abrir Chat</button>
-    <ul id="mensajes"></ul>
-    <h2>Canvas</h2>
-    Unirse a una sala existente: <input id="salaid"></input> <button onclick="unirseSala()">Entrar</button><button
-        onclick="crearSala()">Crear una sala</button>
-    <canvas id="canvas"></canvas>
-    <h1>Usuarios conectados</h1>
-    <span id="conexiones">0</span>
+    <div style="display: flex; padding: 10px;">
+        <div style="width: 30%;">
+            <h2 style="text-align: center;">Chat global</h2>
+            <b><label for="exampleFormControlInput1" class="form-label">Usuario</label></b>
+            <input type="text" class="form-control" id="usuario" placeholder="Monocoto3000"> <br>
+            <b><label for="exampleFormControlInput1" class="form-label">Mensaje</label></b>
+            <input type="text" class="form-control" id="mensaje" placeholder="¡Hola amigos! :D"><br>
+            <div style="margin-bottom: 25px;">
+                <button onclick="getMensajes()" type="button" class="btn btn-danger">Abrir Chat</button>
+                <button onclick="postearMensajes()" type="button" class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+        <div style="width: 50%; padding: 15px;">
+            <div class="mb-3">
+                <h2 style="text-align: center;">Canvas colaborativo</h2>
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon3"><b>Unirse a una sala existente</b></span>
+                    <input type="text" class="form-control" id="salaid" aria-describedby="basic-addon3 basic-addon4"
+                        placeholder="Código">
+                    <button onclick="unirseSala()" class="btn btn-primary">Entrar</button>
+                </div>
+                <div class="form-text" id="basic-addon4" style="text-align: center;">
+                    ó <br>
+                    <button onclick="crearSala()" class="btn btn-danger">Crear una sala</button>
+                </div>
+                <div class="form-text" id="basic-addon4" style="text-align: center;">
+                    <span id="roomcode" style="font-weight: bold;"></span>
+                </div>
+            </div>
+        </div>
+        <div style="width: 20%;">
+            <h1>Conexiones activas</h1>
+            <span id="conexiones">0</span>
+        </div>
+    </div>
+
+    <h2 style="text-align: center;">Canvas</h2>
+    <div style="display: flex;">
+        <div style="width: 30%;">
+            <ul id="mensajes"></ul>
+        </div>
+        <div style="width: 70%; background-color: lightblue;">
+            <div style="text-align: center; padding: 10px;">
+                <canvas id="canvas" style="background-color: white;"></canvas>
+            </div>
+        </div>
+    </div>
+
     <!-- Pizarron -->
     <script src="./canvas.js" />
     </script>
@@ -45,9 +79,7 @@
                     setTimeout(updateConnectionCount, 1000);
                 });
         }
-
         updateConnectionCount();
-
     </script>
 </body>
 

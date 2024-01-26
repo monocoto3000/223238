@@ -1,11 +1,24 @@
 let canvas = document.getElementById("canvas")
+let roomcode = document.getElementById("roomcode")
 
-canvas.width = 600
-canvas.height = 700
+canvas.width = 1000
+canvas.height = 500
 
 var io = io.connect('http://localhost:3000');
 
 let ctx = canvas.getContext("2d")
+
+let roomId;
+function unirseSala() {
+    roomId = document.getElementById("salaid").value;
+    io.emit("joinRoom", roomId);
+}
+function crearSala() {
+    roomId = Math.random().toString(36).substring(7);
+    console.log(roomId) // Genera un ID de sala aleatorio
+    roomcode.textContent= `El código de su sala es: ${roomId}`
+    io.emit("joinRoom", roomId);
+}
 
 let y;
 let x;
@@ -24,7 +37,7 @@ canvas.addEventListener('mousedown', (e) => {
     x = coords.x;
     y = coords.y;
     ctx.moveTo(x, y);
-    io.emit('down', {x,y})
+    io.emit('down', { x, y, roomId })
     mouseDown = true;
 });
 
@@ -37,15 +50,15 @@ io.on('ondraw', ({ x, y }) => {
     ctx.stroke();
 })
 
-io.on('ondown', ({x,y}) => {
-    ctx.moveTo(x,y)
+io.on('ondown', ({ x, y }) => {
+    ctx.moveTo(x, y)
 })
 
 canvas.addEventListener('mousemove', (e) => {
     if (!mouseDown) return;
 
     if (mouseDown) {
-        io.emit('draw', { x, y })
+        io.emit('draw', { x, y, roomId })
         ctx.lineTo(x, y);
         ctx.stroke();
     }
