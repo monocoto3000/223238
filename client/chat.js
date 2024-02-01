@@ -1,5 +1,6 @@
 const mensajesUL = document.getElementById("mensajes");
 let ultimoMensaje = 0;
+const jwtSecret = "PalabraSecreta"
 
 
 function randomColorGenerator() {
@@ -12,6 +13,7 @@ function randomColorGenerator() {
 }
 
 function imprimirMensajes(mensajes) {
+    mensajesUL.innerHTML = '';
     console.log('Mensajes recibidos:', mensajes);
     for (const mensaje of mensajes) {
         const li = document.createElement("li");
@@ -21,35 +23,33 @@ function imprimirMensajes(mensajes) {
     }
 }
 
-function getMensajes() {
-    fetch('http://localhost:3000/mensajes')
-        .then(res => res.json())
-        .then(data => {
-            console.log('Respuesta del servidor (getMensajes):', data);
 
-            const mensajes = data.mensajes;
-            imprimirMensajes(mensajes);
-            ultimoMensaje = mensajes.length > 0 ? mensajes[mensajes.length - 1].id : 0;
-            getNewMensajes(3000);
-        })
-        .catch(console.log);
+async function getMensajes() {
+    const res = await fetch('http://localhost:3000/mensajes');
+    const data = await res.json();
+    console.log(data)
+    if (data.mensajes.length > 0) {
+        imprimirMensajes(data.mensajes);
+    }
 }
 
-function getNewMensajes(interval) {
-    fetch('http://localhost:3000/mensajes/update?idMensaje=' + ultimoMensaje)
-        .then(resp => resp.json())
-        .then(data => {
-            console.log('Respuesta del servidor (getNewMensajes):', data);
-
-            const mensajes = data.mensajes;
-            imprimirMensajes(mensajes);
-            if (mensajes.length > 0) {
-                ultimoMensaje = mensajes[mensajes.length - 1].id;
-            }
-            setTimeout(() => getNewMensajes(interval), interval);
-        })
-        .catch(console.log);
+async function getNewMensaje() {
+    try {
+        const res = await fetch('http://localhost:3000/nuevo-mensaje');
+        const data = await res.json();
+        console.log(data);
+        imprimirMensajes(data.mensaje);
+    } catch (error) {
+        console.log(error);
+    } finally {
+        getNewMensaje()
+    }
 }
+
+(async () => {
+    await getMensajes();
+    getNewMensaje();
+})();
 
 function postearMensajes() {
     const usuario = document.getElementById("usuario").value
@@ -67,7 +67,9 @@ function postearMensajes() {
     })
         .then(response => response.json())
         .then(data => {
+            getMensajes()
             console.log('Respuesta del servidor:', data);
         })
         .catch(error => console.error('Error:', error));
 }
+

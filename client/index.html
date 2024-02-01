@@ -19,7 +19,6 @@
             <b><label for="exampleFormControlInput1" class="form-label">Mensaje</label></b>
             <input type="text" class="form-control" id="mensaje" placeholder="¡Hola amigos! :D"><br>
             <div style="margin-bottom: 25px;">
-                <button onclick="getMensajes()" type="button" class="btn btn-danger">Abrir Chat</button>
                 <button onclick="postearMensajes()" type="button" class="btn btn-primary">Enviar</button>
             </div>
         </div>
@@ -42,6 +41,16 @@
             </div>
         </div>
         <div style="width: 20%;">
+            <h1>Iniciar sesión</h1>
+            <span class="input-group-text" id="basic-addon3"><b>Nombre de usuario</b></span>
+            <input type="text" class="form-control" id="username" aria-describedby="basic-addon3 basic-addon4"
+                placeholder="Usuario">
+            <br>
+            <span class="input-group-text" id="basic-addon3"><b>Contraseña</b></span>
+            <input type="text" class="form-control" id="password" aria-describedby="basic-addon3 basic-addon4"
+                placeholder="Contraseña">
+            <br>
+            <button onclick="iniciarSesion()" class="btn btn-primary">Iniciar sesion</button>
             <h1>Conexiones activas</h1>
             <span id="conexiones">0</span>
         </div>
@@ -67,19 +76,52 @@
     </script>
 
     <script>
+
+        // const spanConnections = document.getElementById("conexiones");
+
+        // async function updateConnectionCount() {
+        //     try {
+        //         const response = await fetch('http://localhost:3000/conexiones')
+        //         const data = await response.json();
+        //         console.log(data)
+        //         spanConnections.textContent = data;
+        //         updateConnectionCount()
+        //     } catch (error) {
+        //         console.log(error)
+        //     }
+        // }
+
+        // updateConnectionCount();
+
+        // function updateConnectionCount() {
+        //     fetch('http://localhost:3000/conexiones')
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             document.getElementById('conexiones').innerText = data.usuarios;
+        //             updateConnectionCount();
+        //         })
+        //         .catch(error => {
+        //             console.error('Error durante el long polling:', error);
+        //             setTimeout(updateConnectionCount, 1000);
+        //         });
+        // }
+        // updateConnectionCount();
+
         function updateConnectionCount() {
             fetch('http://localhost:3000/conexiones')
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('conexiones').innerText = data.usuarios;
-                    updateConnectionCount();
+                    setTimeout(updateConnectionCount, 9000); 
                 })
                 .catch(error => {
-                    console.error('Error durante el long polling:', error);
-                    setTimeout(updateConnectionCount, 1000);
+                    console.error('Error durante el short polling:', error);
+                    setTimeout(updateConnectionCount, 9000);
                 });
         }
+
         updateConnectionCount();
+
     </script>
 </body>
 
